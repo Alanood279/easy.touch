@@ -1,0 +1,1257 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Easy Touch - تقنية للجميع</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-dark: #0f172a;
+            --primary-blue: #1e40af;
+            --accent-blue: #3b82f6;
+            --light-blue: #60a5fa;
+            --bg-light: #f8fafc;
+            --text-dark: #1e293b;
+            --text-light: #64748b;
+            --white: #ffffff;
+            --gradient-hero: linear-gradient(135deg, #0f172a 0%, #1e40af 50%, #3b82f6 100%);
+        }
+
+        @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap');
+
+        body {
+            font-family: 'Cairo', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-light);
+            color: var(--text-dark);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Logo Styles */
+        .logo-svg {
+            width: 40px;
+            height: 40px;
+            margin-left: 10px;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: var(--white);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .logo span {
+            color: var(--accent-blue);
+        }
+
+        /* Navbar Styles */
+        .navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 1rem 5%;
+            background: rgba(15, 23, 42, 0.95);
+            backdrop-filter: blur(10px);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            transition: all 0.3s ease;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .navbar.scrolled {
+            padding: 0.8rem 5%;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2.5rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--white);
+            text-decoration: none;
+            font-weight: 600;
+            position: relative;
+            transition: color 0.3s;
+            font-size: 1rem;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            right: 0;
+            width: 0;
+            height: 2px;
+            background: var(--accent-blue);
+            transition: width 0.3s;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .nav-links a:hover {
+            color: var(--light-blue);
+        }
+
+        .login-btn {
+            background: transparent;
+            border: 2px solid var(--accent-blue);
+            color: var(--white);
+            padding: 0.6rem 1.5rem;
+            border-radius: 50px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .login-btn:hover {
+            background: var(--accent-blue);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(59, 130, 246, 0.3);
+        }
+
+        .mobile-menu {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            cursor: pointer;
+        }
+
+        .mobile-menu span {
+            width: 25px;
+            height: 3px;
+            background: var(--white);
+            transition: 0.3s;
+            border-radius: 3px;
+        }
+
+        /* Hero Section - ORIGINAL STYLE */
+        .hero {
+            min-height: 100vh;
+            background: var(--gradient-hero);
+            display: flex;
+            align-items: center;
+            padding: 8rem 5% 4rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -20%;
+            width: 600px;
+            height: 600px;
+            background: rgba(59, 130, 246, 0.1);
+            border-radius: 50%;
+            filter: blur(80px);
+            animation: float 8s ease-in-out infinite;
+        }
+
+        .hero::after {
+            content: '';
+            position: absolute;
+            bottom: -30%;
+            right: -10%;
+            width: 500px;
+            height: 500px;
+            background: rgba(96, 165, 250, 0.1);
+            border-radius: 50%;
+            filter: blur(60px);
+            animation: float 10s ease-in-out infinite reverse;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0); }
+            50% { transform: translate(30px, -30px); }
+        }
+
+        .hero-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-content h1 {
+            font-size: 3.5rem;
+            font-weight: 800;
+            color: var(--white);
+            margin-bottom: 1.5rem;
+            line-height: 1.2;
+            opacity: 0;
+            animation: slideInRight 1s ease forwards;
+        }
+
+        .hero-content h1 span {
+            color: var(--light-blue);
+        }
+
+        .hero-content p {
+            font-size: 1.25rem;
+            color: rgba(255,255,255,0.9);
+            margin-bottom: 2.5rem;
+            opacity: 0;
+            animation: slideInRight 1s ease 0.2s forwards;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 1rem;
+            opacity: 0;
+            animation: slideInRight 1s ease 0.4s forwards;
+        }
+
+        .btn-primary {
+            background: var(--accent-blue);
+            color: var(--white);
+            padding: 1rem 2.5rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 700;
+            transition: all 0.3s;
+            display: inline-block;
+            box-shadow: 0 10px 30px rgba(59, 130, 246, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(59, 130, 246, 0.4);
+            background: var(--light-blue);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--white);
+            padding: 1rem 2.5rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 700;
+            border: 2px solid rgba(255,255,255,0.3);
+            transition: all 0.3s;
+            display: inline-block;
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255,255,255,0.1);
+            border-color: var(--white);
+            transform: translateY(-3px);
+        }
+
+        .hero-image {
+            position: relative;
+            opacity: 0;
+            animation: slideInLeft 1s ease 0.6s forwards;
+        }
+
+        .hero-mockup {
+            width: 100%;
+            max-width: 600px;
+            height: 400px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .braille-display {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            padding: 30px;
+        }
+
+        .braille-cell {
+            width: 50px;
+            height: 50px;
+            border: 3px solid rgba(255,255,255,0.8);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+            animation: pulse 2s infinite;
+        }
+
+        .braille-cell:nth-child(2) { animation-delay: 0.2s; }
+        .braille-cell:nth-child(3) { animation-delay: 0.4s; }
+        .braille-cell:nth-child(4) { animation-delay: 0.6s; }
+        .braille-cell:nth-child(5) { animation-delay: 0.8s; }
+        .braille-cell:nth-child(6) { animation-delay: 1s; }
+        .braille-cell:nth-child(7) { animation-delay: 1.2s; }
+        .braille-cell:nth-child(8) { animation-delay: 1.4s; }
+        .braille-cell:nth-child(9) { animation-delay: 1.6s; }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 0.6; }
+            50% { transform: scale(1.1); opacity: 1; box-shadow: 0 0 20px rgba(255,255,255,0.5); }
+        }
+
+        .floating-elements {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+        }
+
+        .float-element {
+            position: absolute;
+            background: rgba(255,255,255,0.15);
+            border-radius: 12px;
+            padding: 1rem;
+            backdrop-filter: blur(5px);
+            animation: floatElement 6s ease-in-out infinite;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--white);
+            font-weight: 600;
+        }
+
+        .float-element i {
+            font-size: 1.2rem;
+        }
+
+        .float-element:nth-child(1) { top: 10%; left: -20px; animation-delay: 0s; }
+        .float-element:nth-child(2) { top: 60%; right: -30px; animation-delay: 2s; }
+        .float-element:nth-child(3) { bottom: 20%; left: 10%; animation-delay: 4s; }
+
+        @keyframes floatElement {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+
+        @keyframes slideInRight {
+            from { opacity: 0; transform: translateX(50px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        @keyframes slideInLeft {
+            from { opacity: 0; transform: translateX(-50px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        /* Features Section */
+        .features {
+            padding: 6rem 5%;
+            background: var(--bg-light);
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .section-header h2 {
+            font-size: 2.5rem;
+            color: var(--primary-dark);
+            margin-bottom: 1rem;
+            font-weight: 800;
+        }
+
+        .section-header p {
+            color: var(--text-light);
+            font-size: 1.1rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .feature-card {
+            background: var(--white);
+            padding: 2.5rem;
+            border-radius: 20px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+            transition: all 0.3s ease;
+            border: 1px solid rgba(0,0,0,0.05);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: var(--gradient-hero);
+            transform: scaleX(0);
+            transition: transform 0.3s;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(30, 64, 175, 0.15);
+        }
+
+        .feature-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .feature-icon {
+            width: 60px;
+            height: 60px;
+            background: var(--gradient-hero);
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+            font-size: 1.5rem;
+            color: var(--white);
+        }
+
+        .feature-card h3 {
+            font-size: 1.3rem;
+            color: var(--primary-dark);
+            margin-bottom: 0.8rem;
+            font-weight: 700;
+        }
+
+        .feature-card p {
+            color: var(--text-light);
+            line-height: 1.8;
+        }
+
+        /* How It Works Section */
+        .how-it-works {
+            padding: 6rem 5%;
+            background: var(--white);
+        }
+
+        .steps-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .step {
+            display: flex;
+            align-items: center;
+            margin-bottom: 4rem;
+            position: relative;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.6s ease;
+        }
+
+        .step.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .step:nth-child(even) {
+            flex-direction: row-reverse;
+            text-align: left;
+        }
+
+        .step:nth-child(odd) {
+            text-align: right;
+        }
+
+        .step-number {
+            width: 80px;
+            height: 80px;
+            background: var(--gradient-hero);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--white);
+            font-size: 2rem;
+            font-weight: 800;
+            flex-shrink: 0;
+            box-shadow: 0 10px 30px rgba(30, 64, 175, 0.3);
+            z-index: 2;
+        }
+
+        .step-content {
+            flex: 1;
+            padding: 0 2rem;
+        }
+
+        .step-content h3 {
+            font-size: 1.5rem;
+            color: var(--primary-dark);
+            margin-bottom: 0.5rem;
+        }
+
+        .step-content p {
+            color: var(--text-light);
+            font-size: 1.1rem;
+        }
+
+        /* CTA Section */
+        .cta {
+            padding: 5rem 5%;
+            background: var(--gradient-hero);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+        }
+
+        .cta h2 {
+            font-size: 2.5rem;
+            color: var(--white);
+            margin-bottom: 1rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .cta p {
+            color: rgba(255,255,255,0.9);
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .cta-btn {
+            background: var(--white);
+            color: var(--primary-blue);
+            padding: 1.2rem 3rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 800;
+            font-size: 1.1rem;
+            display: inline-block;
+            transition: all 0.3s;
+            position: relative;
+            z-index: 1;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        .cta-btn:hover {
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+        }
+
+        /* Footer */
+        .footer {
+            background: var(--primary-dark);
+            color: var(--white);
+            padding: 3rem 5% 2rem;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .footer-logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+            font-weight: 800;
+        }
+
+        .footer-logo svg {
+            width: 30px;
+            height: 30px;
+        }
+
+        .footer-content p {
+            color: rgba(255,255,255,0.7);
+            margin-bottom: 0.5rem;
+        }
+
+        .phone-display {
+            font-size: 2rem;
+            font-weight: 800;
+            color: var(--light-blue);
+            direction: ltr;
+            display: inline-block;
+            margin: 1rem 0;
+            letter-spacing: 2px;
+        }
+
+        .footer-bottom {
+            border-top: 1px solid rgba(255,255,255,0.1);
+            padding-top: 2rem;
+            margin-top: 2rem;
+            text-align: center;
+            color: rgba(255,255,255,0.5);
+            font-size: 0.9rem;
+        }
+
+        /* Login Page Styles */
+        .login-page {
+            min-height: 100vh;
+            background: var(--gradient-hero);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+        }
+
+        .login-container {
+            background: var(--white);
+            border-radius: 20px;
+            padding: 3rem;
+            max-width: 450px;
+            width: 100%;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.3);
+            text-align: center;
+        }
+
+        .login-logo {
+            margin-bottom: 2rem;
+        }
+
+        .login-logo svg {
+            width: 80px;
+            height: 80px;
+            margin-bottom: 1rem;
+        }
+
+        .login-logo h1 {
+            color: var(--primary-dark);
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .login-logo p {
+            color: var(--text-light);
+        }
+
+        .google-btn {
+            background: #fff;
+            border: 2px solid #ddd;
+            border-radius: 50px;
+            padding: 1rem 2rem;
+            width: 100%;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+            transition: all 0.3s;
+            margin-top: 2rem;
+            text-decoration: none;
+            color: var(--text-dark);
+        }
+
+        .google-btn:hover {
+            border-color: var(--accent-blue);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            transform: translateY(-2px);
+        }
+
+        .google-btn i {
+            color: #DB4437;
+            font-size: 1.5rem;
+        }
+
+        .divider {
+            margin: 2rem 0;
+            position: relative;
+            text-align: center;
+        }
+
+        .divider::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: #ddd;
+        }
+
+        .divider span {
+            background: var(--white);
+            padding: 0 1rem;
+            position: relative;
+            color: var(--text-light);
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-top: 2rem;
+            color: var(--accent-blue);
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .back-link:hover {
+            text-decoration: underline;
+        }
+
+        /* Page Sections */
+        .page-section {
+            padding: 8rem 5% 4rem;
+            min-height: 100vh;
+            display: none;
+        }
+
+        .page-section.active {
+            display: block;
+        }
+
+        .page-content {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .page-content h1 {
+            font-size: 2.5rem;
+            color: var(--primary-dark);
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        .page-content p {
+            color: var(--text-light);
+            line-height: 1.8;
+            margin-bottom: 1.5rem;
+            font-size: 1.1rem;
+        }
+
+        /* Contact Page Specific */
+        .contact-box-simple {
+            background: var(--white);
+            border-radius: 20px;
+            padding: 3rem;
+            max-width: 500px;
+            margin: 2rem auto;
+            text-align: center;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+        }
+
+        .contact-box-simple i {
+            font-size: 3rem;
+            color: var(--accent-blue);
+            margin-bottom: 1rem;
+        }
+
+        .contact-box-simple h3 {
+            color: var(--primary-dark);
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+        }
+
+        .contact-box-simple .phone-big {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--primary-blue);
+            direction: ltr;
+            display: block;
+            margin: 1.5rem 0;
+            letter-spacing: 3px;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 968px) {
+            .hero-container {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+
+            .hero-content h1 {
+                font-size: 2.5rem;
+            }
+
+            .hero-buttons {
+                justify-content: center;
+            }
+
+            .hero-image {
+                order: -1;
+            }
+
+            .hero-mockup {
+                height: 300px;
+            }
+
+            .braille-cell {
+                width: 40px;
+                height: 40px;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .mobile-menu {
+                display: flex;
+            }
+
+            .step:nth-child(even),
+            .step:nth-child(odd) {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .step-content {
+                padding: 1rem 0;
+            }
+
+            .phone-display, .phone-big {
+                font-size: 1.8rem !important;
+            }
+        }
+
+        @media (max-width: 640px) {
+            .hero-content h1 {
+                font-size: 2rem;
+            }
+
+            .section-header h2 {
+                font-size: 1.8rem;
+            }
+
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .braille-display {
+                gap: 10px;
+                padding: 20px;
+            }
+
+            .braille-cell {
+                width: 35px;
+                height: 35px;
+                border-width: 2px;
+            }
+
+            .login-container {
+                padding: 2rem;
+            }
+
+            .contact-box-simple {
+                padding: 2rem 1rem;
+            }
+        }
+
+        /* Scroll Animation */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar" id="navbar">
+        <a href="#" class="logo" onclick="showPage('home')">
+            <svg class="logo-svg" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="20" cy="20" r="12" stroke="white" stroke-width="3" fill="none"/>
+                <circle cx="50" cy="20" r="12" stroke="white" stroke-width="3" fill="none"/>
+                <circle cx="80" cy="20" r="12" stroke="white" stroke-width="3" fill="none"/>
+                <circle cx="20" cy="50" r="12" stroke="white" stroke-width="3" fill="none"/>
+                <circle cx="50" cy="50" r="12" stroke="white" stroke-width="3" fill="none"/>
+                <circle cx="80" cy="50" r="12" stroke="white" stroke-width="3" fill="none"/>
+                <circle cx="20" cy="80" r="12" stroke="white" stroke-width="3" fill="none"/>
+                <circle cx="50" cy="80" r="12" stroke="white" stroke-width="3" fill="none"/>
+                <circle cx="80" cy="80" r="12" stroke="white" stroke-width="3" fill="none"/>
+            </svg>
+            Easy <span>Touch</span>
+        </a>
+        <ul class="nav-links">
+            <li><a href="#" onclick="showPage('home')">الرئيسية</a></li>
+            <li><a href="#" onclick="showPage('about')">من نحن</a></li>
+            <li><a href="#" onclick="showPage('services')">الخدمات</a></li>
+            <li><a href="#" onclick="showPage('contact')">تواصل معنا</a></li>
+        </ul>
+        <a href="#" class="login-btn" onclick="showPage('login')">تسجيل الدخول</a>
+        <div class="mobile-menu" onclick="toggleMenu()">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </nav>
+
+    <!-- Home Page -->
+    <div id="home" class="page-section active">
+        <!-- Hero Section - ORIGINAL -->
+        <section class="hero">
+            <div class="hero-container">
+                <div class="hero-content">
+                    <h1>عالم رقمي <span>بلا حدود</span></h1>
+                    <p>نبني جسوراً بين المكفوفين وضعاف البصر مع التكنولوجيا الحديثة. حلول ذكية تجمع بين نظام برايل والتقنيات الرقمية للاستقلالية والتمكين.</p>
+                    <div class="hero-buttons">
+                        <a href="#" class="btn-primary" onclick="showPage('contact')">تواصل معنا</a>
+                        <a href="#" class="btn-secondary" onclick="showPage('about')">اكتشف المزيد</a>
+                    </div>
+                </div>
+                <div class="hero-image">
+                    <div class="hero-mockup">
+                        <div class="braille-display">
+                            <div class="braille-cell"></div>
+                            <div class="braille-cell"></div>
+                            <div class="braille-cell"></div>
+                            <div class="braille-cell"></div>
+                            <div class="braille-cell"></div>
+                            <div class="braille-cell"></div>
+                            <div class="braille-cell"></div>
+                            <div class="braille-cell"></div>
+                            <div class="braille-cell"></div>
+                        </div>
+                        <div class="floating-elements">
+                            <div class="float-element">
+                                <i class="fas fa-hand-pointer"></i>
+                                <span>لمس ذكي</span>
+                            </div>
+                            <div class="float-element">
+                                <i class="fas fa-volume-up"></i>
+                                <span>صوت واضح</span>
+                            </div>
+                            <div class="float-element">
+                                <i class="fas fa-mobile-alt"></i>
+                                <span>تطبيق سهل</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Features Section -->
+        <section class="features" id="features">
+            <div class="section-header fade-in">
+                <h2>حلولنا المبتكرة</h2>
+                <p>تقنيات مصممة لتمكين المكفوفين وضعاف البصر من التفاعل مع العالم الرقمي باستقلالية</p>
+            </div>
+            <div class="features-grid">
+                <div class="feature-card fade-in">
+                    <div class="feature-icon">
+                        <i class="fas fa-braille"></i>
+                    </div>
+                    <h3>لوحات برايل رقمية</h3>
+                    <p>أجهزة ملموسة تحول النصوص الرقمية إلى نقاط برايل قابلة للقراءة اللمسية بسهولة ودقة عالية</p>
+                </div>
+                <div class="feature-card fade-in">
+                    <div class="feature-icon">
+                        <i class="fas fa-headphones"></i>
+                    </div>
+                    <h3>تحويل نص إلى صوت</h3>
+                    <p>تقنية متقدمة لقراءة النصوص بصوت واضح وطبيعي بأكثر من 30 لغة مع دعم كامل للعربية</p>
+                </div>
+                <div class="feature-card fade-in">
+                    <div class="feature-icon">
+                        <i class="fas fa-mobile-screen"></i>
+                    </div>
+                    <h3>تطبيق ذكي متكامل</h3>
+                    <p>واجهة سهلة الاستخدام مع دعم كامل للقارئات الشاشة والإيماءات الصوتية والتنقل السلس</p>
+                </div>
+                <div class="feature-card fade-in">
+                    <div class="feature-icon">
+                        <i class="fas fa-graduation-cap"></i>
+                    </div>
+                    <h3>منصة تعليمية تفاعلية</h3>
+                    <p>دورات وموارد تعليمية مصممة خصيصاً لتعلم برايل والتقنية للأعمار المختلفة والمستويات</p>
+                </div>
+                <div class="feature-card fade-in">
+                    <div class="feature-icon">
+                        <i class="fas fa-globe"></i>
+                    </div>
+                    <h3>دعم متعدد اللغات</h3>
+                    <p>دعم كامل للعربية والإنجليزية واللغات الأخرى مع تحويل فوري ودقيق بين اللغات</p>
+                </div>
+                <div class="feature-card fade-in">
+                    <div class="feature-icon">
+                        <i class="fas fa-shield-halved"></i>
+                    </div>
+                    <h3>أمان وخصوصية عاليين</h3>
+                    <p>حماية بياناتك بأحدث معايير التشفير والخصوصية لضمان تجربة آمنة وموثوقة</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- How It Works - NO BLUE LINE -->
+        <section class="how-it-works">
+            <div class="section-header fade-in">
+                <h2>كيف يعمل Easy Touch؟</h2>
+                <p>ثلاث خطوات بسيطة للوصول إلى عالم رقمي أكثر شمولاً</p>
+            </div>
+            <div class="steps-container">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <div class="step-content">
+                        <h3>حمّل التطبيق أو اربط الجهاز</h3>
+                        <p>ثبّت تطبيق Easy Touch على هاتفك الذكي أو اربط لوحة برايل الرقمية. الإعداد يستغرق دقيقتين فقط.</p>
+                    </div>
+                </div>
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <div class="step-content">
+                        <h3>اختر طريقة التفاعل المناسبة لك</h3>
+                        <p>سواء كنت تفضل القراءة اللمسية، الصوتية، أو الجمع بينهما. صمّم تجربتك حسب احتياجاتك.</p>
+                    </div>
+                </div>
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <div class="step-content">
+                        <h3>استمتع بالاستقلالية الرقمية</h3>
+                        <p>تصفح الإنترنت، اقرأ الكتب، تواصل مع الآخرين، وادخل إلى عالم من الفرص دون حواجز.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CTA Section -->
+        <section class="cta">
+            <h2>جاهز لاكتشاف عالم جديد؟</h2>
+            <p>تواصل معنا اليوم واكتشف كيف يمكن لـ Easy Touch أن يغير حياتك</p>
+            <a href="#" class="cta-btn" onclick="showPage('contact')">تواصل معنا الآن</a>
+        </section>
+    </div>
+
+    <!-- About Page -->
+    <div id="about" class="page-section">
+        <div class="page-content">
+            <h1>من نحن</h1>
+            <p>Easy Touch هي شركة تقنية ناشئة تهدف إلى تمكين المكفوفين وضعاف البصر من استخدام التكنولوجيا الحديثة بسهولة واستقلالية. نعمل على تطوير حلول ذكية تجمع بين نظام برايل والتقنيات الرقمية.</p>
+            <p>تتميز حلولنا بسهولة الاستخدام، الأمان العالي، ودعم عدة لغات، مما يجعلها مناسبة لمختلف الفئات العمرية والبيئات التعليمية.</p>
+            <p><strong>رؤيتنا:</strong> أن تصبح التقنية متاحة للجميع دون استثناء، وأن تزيل الحواجز بين المكفوفين والمحتوى الرقمي، سواء في التعليم أو العمل أو الحياة اليومية.</p>
+            <p><strong>مهمتنا:</strong> جعل العالم الرقمي أكثر شمولاً من خلال أدوات مبتكرة تجمع بين اللمس والصوت والتقنية.</p>
+            <p style="margin-top: 2rem; padding: 2rem; background: var(--bg-light); border-radius: 15px; border-right: 4px solid var(--accent-blue);">
+                <i class="fas fa-map-marker-alt" style="color: var(--accent-blue); margin-left: 0.5rem;"></i>
+                مقرنا: سلطنة عمان
+            </p>
+        </div>
+    </div>
+
+    <!-- Services Page -->
+    <div id="services" class="page-section">
+        <div class="page-content">
+            <h1>خدماتنا</h1>
+            <div class="features-grid" style="margin-top: 3rem;">
+                <div class="feature-card">
+                    <div class="feature-icon"><i class="fas fa-braille"></i></div>
+                    <h3>أجهزة برايل رقمية</h3>
+                    <p>لوحات إلكترونية متطورة تحول النصوص إلى نقاط برايل ملموسة مع اهتزازات ذكية للتنبيه.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon"><i class="fas fa-mobile-screen"></i></div>
+                    <h3>تطبيق Easy Touch</h3>
+                    <p>تطبيق متكامل للهواتف الذكية يدعم القراءة اللمسية والصوتية والتنقل السهل.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon"><i class="fas fa-chalkboard-user"></i></div>
+                    <h3>تدريب ودعم</h3>
+                    <p>جلسات تدريبية شخصية ودعم فني متواصل لضمان الاستخدام الأمثل لأدواتنا.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Contact Page -->
+    <div id="contact" class="page-section">
+        <div class="page-content" style="padding-top: 4rem;">
+            <h1>تواصل معنا</h1>
+            <p style="text-align: center; margin-bottom: 3rem;">نحن هنا لمساعدتك. لا تتردد في الاتصال بنا</p>
+            
+            <div class="contact-box-simple">
+                <i class="fas fa-phone-volume"></i>
+                <h3>اتصل بنا مباشرة</h3>
+                <p>متاح من الأحد إلى الخميس<br>9:00 صباحاً - 5:00 مساءً</p>
+                <span class="phone-big">92071311</span>
+                <p style="color: var(--text-light); margin-top: 1rem;">
+                    <i class="fas fa-map-marker-alt"></i> سلطنة عمان
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Login Page -->
+    <div id="login" class="page-section" style="padding: 0;">
+        <div class="login-page">
+            <div class="login-container">
+                <div class="login-logo">
+                    <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="20" cy="20" r="12" stroke="#1e40af" stroke-width="3" fill="none"/>
+                        <circle cx="50" cy="20" r="12" stroke="#1e40af" stroke-width="3" fill="none"/>
+                        <circle cx="80" cy="20" r="12" stroke="#1e40af" stroke-width="3" fill="none"/>
+                        <circle cx="20" cy="50" r="12" stroke="#1e40af" stroke-width="3" fill="none"/>
+                        <circle cx="50" cy="50" r="12" stroke="#1e40af" stroke-width="3" fill="none"/>
+                        <circle cx="80" cy="50" r="12" stroke="#1e40af" stroke-width="3" fill="none"/>
+                        <circle cx="20" cy="80" r="12" stroke="#1e40af" stroke-width="3" fill="none"/>
+                        <circle cx="50" cy="80" r="12" stroke="#1e40af" stroke-width="3" fill="none"/>
+                        <circle cx="80" cy="80" r="12" stroke="#1e40af" stroke-width="3" fill="none"/>
+                    </svg>
+                    <h1>تسجيل الدخول</h1>
+                    <p>أهلاً بك في Easy Touch</p>
+                </div>
+
+                <a href="https://accounts.google.com/signin" class="google-btn" target="_blank">
+                    <i class="fab fa-google"></i>
+                    <span>تسجيل الدخول بحساب Google</span>
+                </a>
+
+                <div class="divider">
+                    <span>أو</span>
+                </div>
+
+                <p style="color: var(--text-light); margin-top: 1rem;">
+                    ليس لديك حساب؟ <a href="#" style="color: var(--accent-blue); text-decoration: none; font-weight: 600;">سجل الآن</a>
+                </p>
+
+                <a href="#" class="back-link" onclick="showPage('home')">
+                    <i class="fas fa-arrow-right"></i> العودة للرئيسية
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer" id="footer">
+        <div class="footer-content">
+            <div class="footer-logo">
+                <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="20" cy="20" r="12" stroke="white" stroke-width="3" fill="none"/>
+                    <circle cx="50" cy="20" r="12" stroke="white" stroke-width="3" fill="none"/>
+                    <circle cx="80" cy="20" r="12" stroke="white" stroke-width="3" fill="none"/>
+                    <circle cx="20" cy="50" r="12" stroke="white" stroke-width="3" fill="none"/>
+                    <circle cx="50" cy="50" r="12" stroke="white" stroke-width="3" fill="none"/>
+                    <circle cx="80" cy="50" r="12" stroke="white" stroke-width="3" fill="none"/>
+                    <circle cx="20" cy="80" r="12" stroke="white" stroke-width="3" fill="none"/>
+                    <circle cx="50" cy="80" r="12" stroke="white" stroke-width="3" fill="none"/>
+                    <circle cx="80" cy="80" r="12" stroke="white" stroke-width="3" fill="none"/>
+                </svg>
+                Easy Touch
+            </div>
+            <p>سلطنة عمان</p>
+            <div class="phone-display">92071311</div>
+        </div>
+        <div class="footer-bottom">
+            <p>© 2024 Easy Touch. جميع الحقوق محفوظة.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Page Navigation
+        function showPage(pageName) {
+            // Hide all pages
+            document.querySelectorAll('.page-section').forEach(page => {
+                page.classList.remove('active');
+            });
+            
+            // Show selected page
+            document.getElementById(pageName).classList.add('active');
+            
+            // Scroll to top
+            window.scrollTo(0, 0);
+            
+            // Hide footer on login page
+            const footer = document.getElementById('footer');
+            if (pageName === 'login') {
+                footer.style.display = 'none';
+            } else {
+                footer.style.display = 'block';
+            }
+            
+            return false;
+        }
+
+        // Navbar Scroll Effect
+        window.addEventListener('scroll', function() {
+            const navbar = document.getElementById('navbar');
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+
+        // Scroll Animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: "0px 0px -50px 0px"
+        };
+
+        const observer = new IntersectionObserver(function(entries) {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.fade-in, .step').forEach(el => {
+            observer.observe(el);
+        });
+
+        // Mobile Menu Toggle
+        function toggleMenu() {
+            const navLinks = document.querySelector('.nav-links');
+            if (navLinks.style.display === 'flex') {
+                navLinks.style.display = 'none';
+            } else {
+                navLinks.style.display = 'flex';
+                navLinks.style.position = 'absolute';
+                navLinks.style.top = '100%';
+                navLinks.style.left = '0';
+                navLinks.style.right = '0';
+                navLinks.style.background = 'var(--primary-dark)';
+                navLinks.style.flexDirection = 'column';
+                navLinks.style.padding = '2rem';
+                navLinks.style.gap = '1.5rem';
+            }
+        }
+    </script>
+</body>
+</html>
